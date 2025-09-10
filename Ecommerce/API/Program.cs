@@ -1,41 +1,32 @@
+using API.Models;
+
+Console.Clear();
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
-
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
-
-app.UseHttpsRedirection();
-
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+ List<Produto> produtos = new List<Produto>
+        {
+            new Produto { Nome = "Notebook", Quantidade = 10, Preco = 3500.00 },
+            new Produto { Nome = "Smartphone", Quantidade = 20, Preco = 2200.00 },
+            new Produto { Nome = "Headset Gamer", Quantidade = 15, Preco = 350.00 },
+            new Produto { Nome = "Monitor 24\"", Quantidade = 8, Preco = 900.00 },
+            new Produto { Nome = "Teclado Mecânico", Quantidade = 12, Preco = 450.00 }
 };
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+//Funcionalidades
+//Requisições
+// - Endereço/URL
+// - Método HTTP
+app.MapGet("/", () => " API de Produtos ");
 
+app.MapGet("/api/produto/listar",() =>
+{
+    return Results.Ok(produtos);
+});
+app.MapPost("/api/produto/cadastrar",(Produto produto) =>
+{
+    
+   
+    produtos.Add(produto);
+});
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

@@ -1,0 +1,15 @@
+### REquisição para a raiz 
+http://localhost:5191
+
+###  requisição para listar produtos 
+GET  http://localhost:5191/api/produto/listar
+Accept: application/json
+
+### Requisição para cadastra os produtos 
+POST http://localhost:5191/api/produto/cadastrar
+Content-Type: application/json
+{ 
+    "nome": "Mouse Gamer",
+    "quantidade": 5,
+    "preco": 150.00
+}
